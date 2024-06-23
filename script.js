@@ -48,7 +48,6 @@ function addPatient() {
         <br><br>
         <textarea name="patientHPI${signoutForm.children.length + 1}" placeholder="HPI"></textarea>
         <textarea name="toDo${signoutForm.children.length + 1}" placeholder="To Do"></textarea>
-        <button type="submit">Submit</button>
     `;
     signoutForm.appendChild(newPatientContainer);
 }
