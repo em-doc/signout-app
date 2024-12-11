@@ -1,21 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Signout</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Signout</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        #date {
+            font-style: italic;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        #patientList {
+            margin-top: 20px;
+        }
+        .patient-entry {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        @media print {
+            .container {
+                max-width: 100%;
+            }
+            button, label, input, textarea, h2 {
+                display: none;
+            }
+            #patientList {
+                display: block;
+            }
+            .patient-entry{
+                border: none;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Patient Signout</h1>
-    <form id="signoutForm">
-        <button type="button" onclick="addPatient()">Add Patient</button>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <h1>Signout</h1>
+        <p id="date"></p>
 
-    <script src="script.js"></script>
+        <label for="roomNumber">Room Number:</label>
+        <input type="text" id="roomNumber" name="roomNumber">
+
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" name="patientName">
+
+        <label for="pastMedicalHistory">Relevant Past Medical History:</label>
+        <textarea id="pastMedicalHistory" name="pastMedicalHistory"></textarea>
+
+        <label for="complaint">Complaint:</label>
+        <textarea id="complaint" name="complaint"></textarea>
+
+        <label for="pendingTasks">Pending Tasks:</label>
+        <textarea id="pendingTasks" name="pendingTasks"></textarea>
+
+        <button onclick="addPatient()">Add Patient</button>
+        <button onclick="window.print()">Print</button>
+
+        <div id="patientList">
+            <h2>Entered Patients:</h2>
+        </div>
+    </div>
+
+    <script>
+        function addPatient() {
+            const roomNumber = document.getElementById("roomNumber").value;
+            const name = document.getElementById("patientName").value;
+            const complaint = document.getElementById("complaint").value;
+            const pastMedicalHistory = document.getElementById("pastMedicalHistory").value;
+            const pendingTasks = document.getElementById("pendingTasks").value;
+
+            if (!name || !roomNumber) {
+                alert("Please enter a patient name and room number.");
+                return;
+            }
+
+            const patientList = document.getElementById("patientList");
+            const patientEntry = document.createElement("div");
+            patientEntry.classList.add("patient-entry");
+            patientEntry.innerHTML = `<h3>${name} (Room ${roomNumber})</h3><p><strong>Complaint:</strong> ${complaint}</p><p><strong>Past Medical History:</strong> ${pastMedicalHistory}</p><p><strong>Pending Tasks:</strong> ${pendingTasks}</p>`;
+            patientList.appendChild(patientEntry);
+
+
+            // Clear input fields
+            document.getElementById("roomNumber").value = "";
+            document.getElementById("patientName").value = "";
+            document.getElementById("complaint").value = "";
+            document.getElementById("pastMedicalHistory").value = "";
+            document.getElementById("pendingTasks").value = "";
+        }
+
+        const today = new Date();
+  const dateString = today.toDateString(); // Formats the date nicely
+  document.getElementById("date").textContent = dateString;
+    </script>
+
 </body>
-
 </html>
